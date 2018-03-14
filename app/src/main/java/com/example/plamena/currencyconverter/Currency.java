@@ -7,6 +7,10 @@ public class Currency{
     //rate of the currency
     double rate;
 
+    public Currency(String currencyName) {
+        this.name = currencyName;
+    }
+
     //constructor that creates a currency object with a name and rate
     //to the common currency
     public Currency(String currencyName, double currencyRate) {

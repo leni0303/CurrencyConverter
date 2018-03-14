@@ -1,6 +1,8 @@
 package com.example.plamena.currencyconverter;
 
 import android.os.AsyncTask;
+import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,6 +15,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import static android.content.ContentValues.TAG;
+
 
 /**
  * Class that gathers data from the API in a Json format
@@ -24,7 +28,17 @@ public class FetchData extends AsyncTask<Void, Void, Void> {
     String data= "";
     String dataParsed= "";
 
-    Currency[] currencies;
+    public static Currency[] currencies;
+
+    //user input
+    //TODO delete input dummy values
+    double sourceAmount = MainActivity.amountToConvert;
+    String sourceCurrency = MainActivity.startCurrency;
+    String endCurrency = "usd";
+    //rate from source to euro
+    double rateToEuro = 1.0;
+    //rate from end currency to euro
+    double rateToEndCurrency = 1.0;
 
     protected Void doInBackground(Void... voids) {
         try {
@@ -60,6 +74,7 @@ public class FetchData extends AsyncTask<Void, Void, Void> {
                 data = data + line;
             }
 
+            //getting json object node
             JSONObject root = new JSONObject(data);
 
             JSONObject rates = root.getJSONObject("rates");
@@ -74,37 +89,18 @@ public class FetchData extends AsyncTask<Void, Void, Void> {
             currencies = new Currency[]{new Currency("EUR",1.0),new Currency("USD",usd), new Currency("AUD",aud),
                     new Currency("CAD",cad), new Currency("PLN",pln), new Currency("MXN",mxn)};
 
-            //user input
-            //TODO delete input dummy values
-            double sourceAmount = MainActivity.amountToConvert;
-            String sourceCurrency = "usd";
-            String endCurrency = "usd";
-            //rate from source to euro
-            double rateToEuro = 1.0;
-            //rate from end currency to euro
-            double rateToEndCurrency = 1.0;
-
-            //loops through the currency array and finds the user input
-            for(Currency currency: currencies) {
-                //calculates rate from source to euro
-                if (sourceCurrency.equalsIgnoreCase(currency.getName()))
-                    rateToEuro = currency.getRate();
-                //calculates rate from end currency to euro
-                if (endCurrency.equalsIgnoreCase(currency.getName()))
-                    rateToEndCurrency = currency.getRate();
-            }
-
+            findCurrency();
             //the final amount after calculations
             double endCurrencyAmount = (sourceAmount / rateToEuro) * rateToEndCurrency;
 
             dataParsed = String.valueOf(endCurrencyAmount);
 
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            Log.e(TAG, "Json parsing error: " + e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, "Json parsing error: " + e.getMessage());
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e(TAG, "Json parsing error: " + e.getMessage());
         }
         return null;
     }
@@ -115,5 +111,22 @@ public class FetchData extends AsyncTask<Void, Void, Void> {
 
         //call the expandable list and set its text
         MainActivity.textView.setText(this.dataParsed);
+
+    }
+
+    public void findCurrency() {
+        //loops through the currency array and finds the user input
+        for(Currency currency: currencies) {
+            //calculates rate from source to euro
+            if (sourceCurrency.equalsIgnoreCase(currency.getName()))
+                rateToEuro = currency.getRate();
+            //calculates rate from end currency to euro
+            if (endCurrency.equalsIgnoreCase(currency.getName()))
+                rateToEndCurrency = currency.getRate();
+        }
+    }
+
+    public Currency[] getCurrencies() {
+        return currencies;
     }
 }

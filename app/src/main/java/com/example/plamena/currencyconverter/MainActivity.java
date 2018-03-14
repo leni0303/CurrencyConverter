@@ -10,19 +10,19 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     public static double amountToConvert;
     public static TextView textView;
+    public static String startCurrency;
 
     Spinner sourceSpinner;
     Spinner endSpinner;
     EditText amountText;
     Button convertButton;
 
-
+    Currency currency;
+    FetchData obtainData = new FetchData();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +35,21 @@ public class MainActivity extends AppCompatActivity {
         sourceSpinner = findViewById(R.id.spinner_source_id);
         endSpinner = findViewById(R.id.spinner_end_id);
 
+        String[] currenciesToChoose = {"EUR", "USD", "AUD","CAD","PLN", "MXN"};
+
+        final ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item,currenciesToChoose);
+        sourceSpinner.setAdapter(arrayAdapter);
+        sourceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                startCurrency = (String) arrayAdapter.getItem(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         convertButton.setOnClickListener(new View.OnClickListener() {
             @Override
