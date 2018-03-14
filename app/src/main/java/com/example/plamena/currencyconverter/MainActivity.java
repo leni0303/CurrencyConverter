@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     public static double amountToConvert;
     public static TextView textView;
     public static String startCurrency;
+    public static String endCurrency;
 
     Spinner sourceSpinner;
     Spinner endSpinner;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         sourceSpinner = findViewById(R.id.spinner_source_id);
         endSpinner = findViewById(R.id.spinner_end_id);
 
+        //array of currencies name
         String[] currenciesToChoose = {"EUR", "USD", "AUD","CAD","PLN", "MXN"};
 
         final ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item,currenciesToChoose);
@@ -43,6 +45,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 startCurrency = (String) arrayAdapter.getItem(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        endSpinner.setAdapter(arrayAdapter);
+        endSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                endCurrency = (String) arrayAdapter.getItem(i);
             }
 
             @Override

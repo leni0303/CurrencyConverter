@@ -34,7 +34,7 @@ public class FetchData extends AsyncTask<Void, Void, Void> {
     //TODO delete input dummy values
     double sourceAmount = MainActivity.amountToConvert;
     String sourceCurrency = MainActivity.startCurrency;
-    String endCurrency = "usd";
+    String endCurrency = MainActivity.endCurrency;
     //rate from source to euro
     double rateToEuro = 1.0;
     //rate from end currency to euro
