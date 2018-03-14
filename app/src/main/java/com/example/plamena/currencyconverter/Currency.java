@@ -18,13 +18,26 @@ import java.net.URL;
  * performing it as a background process
  */
 
-public class ObtainData extends AsyncTask<Void, Void, Void>{
+public class Currency extends AsyncTask<Void, Void, Void>{
 
     //data for Json file
     String data= "";
     String dataParsed= "";
 
     double resultOfCOnversion;
+
+    String name;
+    double rate;
+
+    //empty constructor
+    public Currency() {
+    }
+
+    //constructor that creates a currency object to the common currency
+    public Currency(String currencyName, double currencyRate) {
+        this.name = currencyName;
+        this.rate = currencyRate;
+    }
 
     protected Void doInBackground(Void... voids) {
         try {
@@ -44,6 +57,7 @@ public class ObtainData extends AsyncTask<Void, Void, Void>{
                         "MXN":18.410208
                         }
              }*/
+            //because our subscription allows to convert euro to a couple of other currencies we will use EUR as our base
             URL url = new URL("http://data.fixer.io/api/latest?access_key=b763c399e454db703701e95da6b5bac8&symbols=USD,AUD,CAD,PLN,MXN&format=1");
 
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -70,7 +84,33 @@ public class ObtainData extends AsyncTask<Void, Void, Void>{
             double pln = rates.getDouble("PLN");
             double mxn = rates.getDouble("MXN");
 
-           dataParsed = rates.toString();
+            //dataParsed = rates.toString();
+
+            //now we create instances of these currencies
+            Currency[] currencies = {new Currency("EUR",1.0),new Currency("USD",usd), new Currency("AUD",aud),
+                    new Currency("CAD",cad)};
+
+            //user input info
+            double sourceAmount = 10;
+            String sourceCurrency = "USD";
+            String targetCurrency = "EUR";
+            //rate from source to euro
+            double rateToEuro=1.0;
+            //rate from target to euro
+            double rateToTarget=1.0;
+
+            //loops through the currency array and finds the user input
+            for(Currency currency: currencies) {
+                if (sourceCurrency == currency.getName())
+                    rateToEuro = currency.getRate();
+
+                if (targetCurrency == currency.getName())
+                    rateToTarget = currency.getRate();
+
+            }
+            double targetAmount = (sourceAmount / rateToEuro) * rateToTarget;
+
+            dataParsed = String.valueOf(targetAmount);
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -93,8 +133,25 @@ public class ObtainData extends AsyncTask<Void, Void, Void>{
     public void covertFromEuro(double amount, double conversionRate, String endCurrency, JSONObject jsonObject) {
 
     }
-
     public void convertToEuro(double amount, String sourceCurrency) {
 
+    }
+
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getRate() {
+        return rate;
+    }
+
+    public void setRate(double rate) {
+        this.rate = rate;
     }
 }
