@@ -8,76 +8,67 @@
     tools:context="com.example.plamena.currencyconverter.MainActivity">
 
     <Spinner
-        android:id="@+id/spinner_end_id"
-        android:layout_width="150dp"
+        android:id="@+id/spinner_source_id"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/spinner_source_id"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/linearLayout3">
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/convert_button_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/amount_id"
-        android:layout_alignRight="@+id/amount_id"
-        android:layout_below="@+id/amount_id"
-        android:layout_marginEnd="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="48dp"
-        android:text="Convert" />
+        android:layout_marginTop="89dp" />
 
     <EditText
         android:id="@+id/amount_id"
-        android:layout_width="150dp"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/linearLayout3"
-        android:layout_marginLeft="33dp"
-        android:layout_marginStart="33dp"
-        android:layout_marginTop="97dp"
+        android:layout_alignLeft="@+id/spinner_source_id"
+        android:layout_alignStart="@+id/spinner_source_id"
+        android:layout_below="@+id/spinner_source_id"
+        android:layout_marginTop="34dp"
         android:ems="10"
         android:inputType="numberDecimal" />
+
+    <Button
+        android:id="@+id/convert_button_id"
+        android:layout_width="95dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/amount_id"
+        android:layout_marginLeft="57dp"
+        android:layout_marginStart="57dp"
+        android:layout_marginTop="43dp"
+        android:layout_toEndOf="@+id/date_button_id"
+        android:layout_toRightOf="@+id/date_button_id"
+        android:backgroundTint="#FF5722"
+        android:text="Convert" />
+
+    <Button
+        android:id="@+id/date_button_id"
+        android:layout_width="95dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/convert_button_id"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="67dp"
+        android:layout_marginRight="57dp"
+        android:layout_marginStart="67dp"
+        android:backgroundTint="#FF5722"
+        android:text="Pick date" />
+
+    <Spinner
+        android:id="@+id/spinner_end_id"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/amount_id"
+        android:layout_alignStart="@+id/amount_id"
+        android:layout_below="@+id/convert_button_id"
+        android:layout_marginTop="39dp" />
 
     <TextView
         android:id="@+id/textView_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/amount_id"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginEnd="54dp"
-        android:layout_marginRight="54dp"
-        android:text="TextView" />
-
-    <Spinner
-        android:id="@+id/spinner_source_id"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/textView_id"
-        android:layout_alignLeft="@+id/amount_id"
-        android:layout_alignStart="@+id/amount_id"
-        android:layout_marginBottom="43dp" />
-
-    <Button
-        android:id="@+id/date_button_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/textView_id"
-        android:layout_alignRight="@+id/textView_id"
-        android:layout_alignTop="@+id/convert_button_id"
-        android:text="Pick a date" />
+        android:layout_alignLeft="@+id/spinner_end_id"
+        android:layout_alignStart="@+id/spinner_end_id"
+        android:layout_below="@+id/spinner_end_id"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="40dp"
+        android:textSize="25sp" />
 
 </RelativeLayout>

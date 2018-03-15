@@ -22,7 +22,8 @@ public class MainActivity extends AppCompatActivity {
     public static String startCurrency,endCurrency;
     public static int year,month,day;
 
-    public static String monthStr,dateStr;
+    public static String monthStr;
+    public static String dateStr;
 
     Spinner sourceSpinner, endSpinner;
     EditText amountText;
@@ -95,11 +96,16 @@ public class MainActivity extends AppCompatActivity {
                             day = calendarDay;
                             //change format for month and date from "m" to "mm"
                             //2018/3/2 -> 2018/03/02
-                            if(month < 10)
+                            if(month < 10) {
                                 monthStr = "0" + month;
-
-                            if(day < 10)
+                            } else {
+                                monthStr = String.valueOf(month);
+                            }
+                            if(day < 10) {
                                 dateStr = "0" + day;
+                            } else {
+                                dateStr = String.valueOf(day);
+                            }
                             //changes the text on the date selection button to the selected date
                             dateButton.setText(day + "/" + month + "/" + calendarYear);
                     }
@@ -115,7 +121,8 @@ public class MainActivity extends AppCompatActivity {
                 //gets the user input amount and checks if there is any user input
                 if (amountText.getText().toString().length()>0)
                     amountToConvert =  Double.valueOf(amountText.getText().toString());
-                 if (year == 0)
+
+                if (year == 0)
                      Toast.makeText(MainActivity.this, "Please select a date", Toast.LENGTH_LONG).show();
                 //calls the fetch data class where we get the necessary calculations for
                 //conversion between currencies
@@ -123,6 +130,5 @@ public class MainActivity extends AppCompatActivity {
                 obtainData.execute();
             }
         });
-
     }
 }

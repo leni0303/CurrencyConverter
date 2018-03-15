@@ -2,7 +2,6 @@ package com.example.plamena.currencyconverter;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,9 +36,9 @@ public class FetchData extends AsyncTask<Void, Void, Void> {
     String sourceCurrency = MainActivity.startCurrency;
     String endCurrency = MainActivity.endCurrency;
     //rate from source to euro
-    double rateToEuro = 1.0;
+    double rateToEuro;
     //rate from end currency to euro
-    double rateToEndCurrency = 1.0;
+    double rateToEndCurrency;
 
     //gets the necessary user input data from the main class
     int year = MainActivity.year;
@@ -138,4 +137,5 @@ public class FetchData extends AsyncTask<Void, Void, Void> {
                 rateToEndCurrency = currency.getRate();
         }
     }
+
 }
