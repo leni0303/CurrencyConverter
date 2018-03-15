@@ -27,7 +27,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/convert_id"
+        android:id="@+id/convert_button_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/amount_id"
@@ -70,5 +70,14 @@
         android:layout_alignLeft="@+id/amount_id"
         android:layout_alignStart="@+id/amount_id"
         android:layout_marginBottom="43dp" />
+
+    <Button
+        android:id="@+id/date_button_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/textView_id"
+        android:layout_alignRight="@+id/textView_id"
+        android:layout_alignTop="@+id/convert_button_id"
+        android:text="Pick a date" />
 
 </RelativeLayout>

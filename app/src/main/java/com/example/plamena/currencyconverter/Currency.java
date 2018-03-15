@@ -7,6 +7,7 @@ public class Currency{
     //rate of the currency
     double rate;
 
+    //constructor that creates a currency object with a name
     public Currency(String currencyName) {
         this.name = currencyName;
     }
@@ -28,7 +29,4 @@ public class Currency{
         return rate;
     }
 
-    public String toString() {
-        return name;
-    }
 }

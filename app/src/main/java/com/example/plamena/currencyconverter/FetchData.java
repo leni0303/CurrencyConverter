@@ -27,11 +27,12 @@ public class FetchData extends AsyncTask<Void, Void, Void> {
     //data for Json file
     String data= "";
     String dataParsed= "";
+    String dayStr = "";
+    String monthStr = "";
 
-    public static Currency[] currencies;
+    Currency[] currencies;
 
     //user input
-    //TODO delete input dummy values
     double sourceAmount = MainActivity.amountToConvert;
     String sourceCurrency = MainActivity.startCurrency;
     String endCurrency = MainActivity.endCurrency;
@@ -39,6 +40,10 @@ public class FetchData extends AsyncTask<Void, Void, Void> {
     double rateToEuro = 1.0;
     //rate from end currency to euro
     double rateToEndCurrency = 1.0;
+
+    int year = MainActivity.year;
+    String month = MainActivity.monthStr;
+    String day = MainActivity.dateStr;
 
     protected Void doInBackground(Void... voids) {
         try {
@@ -57,7 +62,7 @@ public class FetchData extends AsyncTask<Void, Void, Void> {
                         }*/
             //URL from where we extract data
             //because our subscription allows to convert euro to a couple of other currencies we will use EUR as our base
-            URL url = new URL("http://data.fixer.io/api/latest?access_key=b763c399e454db703701e95da6b5bac8&symbols=USD,AUD,CAD,PLN,MXN&format=1");
+            URL url = new URL("http://data.fixer.io/api/" + year + "-"+ month + "-" + day + "?access_key=b763c399e454db703701e95da6b5bac8&symbols=USD,AUD,CAD,PLN,MXN&format=1");
 
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             //gets input stream from the connection
@@ -114,6 +119,7 @@ public class FetchData extends AsyncTask<Void, Void, Void> {
 
     }
 
+    //method that finds the user source currency and end currency
     public void findCurrency() {
         //loops through the currency array and finds the user input
         for(Currency currency: currencies) {
@@ -124,9 +130,5 @@ public class FetchData extends AsyncTask<Void, Void, Void> {
             if (endCurrency.equalsIgnoreCase(currency.getName()))
                 rateToEndCurrency = currency.getRate();
         }
-    }
-
-    public Currency[] getCurrencies() {
-        return currencies;
     }
 }
