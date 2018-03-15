@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
     public static double amountToConvert;
@@ -91,23 +92,25 @@ public class MainActivity extends AppCompatActivity {
                 //get user input for dates
                 datePickerDialog = new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
                     public void onDateSet(DatePicker datePicker, int calendarYear, int calendarMonth, int calendarDay) {
-                            year = calendarYear;
-                            month = (calendarMonth+1);
-                            day = calendarDay;
-                            //change format for month and date from "m" to "mm"
-                            //2018/3/2 -> 2018/03/02
-                            if(month < 10) {
-                                monthStr = "0" + month;
-                            } else {
-                                monthStr = String.valueOf(month);
-                            }
-                            if(day < 10) {
-                                dateStr = "0" + day;
-                            } else {
-                                dateStr = String.valueOf(day);
-                            }
-                            //changes the text on the date selection button to the selected date
-                            dateButton.setText(day + "/" + month + "/" + calendarYear);
+                        year = calendarYear;
+                        month = (calendarMonth+1);
+                        day = calendarDay;
+                        //change format for month and date from "m" to "mm"
+                        //2018/3/2 -> 2018/03/02
+                        if(month < 10) {
+                            monthStr = "0" + month;
+                        } else {
+                            monthStr = String.valueOf(month);
+                        }
+                        if(day < 10) {
+                            dateStr = "0" + day;
+                        } else {
+                            dateStr = String.valueOf(day);
+                        }
+                        //changes the text on the date selection button to the selected date
+                        dateButton.setText(day + "/" + month + "/" + calendarYear);
+                        //set a maximum for the date picker where it can't exceed today's date
+                        datePickerDialog.getDatePicker().setMaxDate(new Date().getTime());
                     }
                 },year,month,day);
             datePickerDialog.show();
