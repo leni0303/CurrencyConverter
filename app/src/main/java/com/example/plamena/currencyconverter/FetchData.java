@@ -19,17 +19,17 @@ import static android.content.ContentValues.TAG;
 
 
 /**
- * Class that gathers data from the API in a Json format
- * performing it as a background process
+ * Class that gathers data from the API in a Json format,
+ * stores it as an array,
+ * and does the calculations for the currency conversion.
  */
 public class FetchData extends AsyncTask<Void, Void, Void> {
 
     //data for Json file
     String data= "";
     String dataParsed= "";
-    String dayStr = "";
-    String monthStr = "";
 
+    //array of all currencies
     Currency[] currencies;
 
     //user input
@@ -41,6 +41,7 @@ public class FetchData extends AsyncTask<Void, Void, Void> {
     //rate from end currency to euro
     double rateToEndCurrency = 1.0;
 
+    //gets the necessary user input data from the main class
     int year = MainActivity.year;
     String month = MainActivity.monthStr;
     String day = MainActivity.dateStr;
@@ -62,6 +63,7 @@ public class FetchData extends AsyncTask<Void, Void, Void> {
                         }*/
             //URL from where we extract data
             //because our subscription allows to convert euro to a couple of other currencies we will use EUR as our base
+            //data from API refreshes hourly
             URL url = new URL("http://data.fixer.io/api/" + year + "-"+ month + "-" + day + "?access_key=b763c399e454db703701e95da6b5bac8&symbols=USD,AUD,CAD,PLN,MXN&format=1");
 
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -79,10 +81,11 @@ public class FetchData extends AsyncTask<Void, Void, Void> {
                 data = data + line;
             }
 
-            //getting json object node
+            //get json object node
             JSONObject root = new JSONObject(data);
 
             JSONObject rates = root.getJSONObject("rates");
+            //currencies rates
             double usd = rates.getDouble("USD");
             double aud = rates.getDouble("AUD");
             double cad = rates.getDouble("CAD");
@@ -94,6 +97,7 @@ public class FetchData extends AsyncTask<Void, Void, Void> {
             currencies = new Currency[]{new Currency("EUR",1.0),new Currency("USD",usd), new Currency("AUD",aud),
                     new Currency("CAD",cad), new Currency("PLN",pln), new Currency("MXN",mxn)};
 
+            //checks currencies
             findCurrency();
             //the final amount after calculations
             double endCurrencyAmount = (sourceAmount / rateToEuro) * rateToEndCurrency;
@@ -110,16 +114,19 @@ public class FetchData extends AsyncTask<Void, Void, Void> {
         return null;
     }
 
-    //can change UI here
+    /**
+     * Method in which we set the text view for the target amount
+     * @param aVoid
+     */
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-
         //call the expandable list and set its text
         MainActivity.textView.setText(this.dataParsed);
-
     }
 
-    //method that finds the user source currency and end currency
+    /**
+     * Method that finds the user source currency and end currency.
+     */
     public void findCurrency() {
         //loops through the currency array and finds the user input
         for(Currency currency: currencies) {

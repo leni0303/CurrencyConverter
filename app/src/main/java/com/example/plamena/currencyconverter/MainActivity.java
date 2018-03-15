@@ -11,14 +11,13 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-
 
 public class MainActivity extends AppCompatActivity {
     public static double amountToConvert;
+    //text view for the converted result
     public static TextView textView;
     public static String startCurrency,endCurrency;
     public static int year,month,day;
@@ -30,11 +29,11 @@ public class MainActivity extends AppCompatActivity {
     Button convertButton, dateButton;
     DatePickerDialog datePickerDialog;
 
-    @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //wire elements with id's
         textView = findViewById(R.id.textView_id);
         amountText = findViewById(R.id.amount_id);
         convertButton = findViewById(R.id.convert_button_id);
@@ -42,58 +41,66 @@ public class MainActivity extends AppCompatActivity {
         sourceSpinner = findViewById(R.id.spinner_source_id);
         endSpinner = findViewById(R.id.spinner_end_id);
 
-        //array of currencies name
+        //spinner drop down elements
         String[] currenciesToChoose = {"EUR", "USD", "AUD","CAD","PLN", "MXN"};
-
+        //adapter for spinner
         final ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item,currenciesToChoose);
+        //attach data adapter to spinner
         sourceSpinner.setAdapter(arrayAdapter);
+        //spinner onclick listener
         sourceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                startCurrency = (String) arrayAdapter.getItem(i);
-            }
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                //select spinner item
+                startCurrency = (String) arrayAdapter.getItem(position);
 
-            @Override
+                //show selected spinner item
+                Toast.makeText(adapterView.getContext(), "Selected: " + startCurrency, Toast.LENGTH_LONG).show();
+            }
             public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
         });
 
+        //attach data adapter to spinner
         endSpinner.setAdapter(arrayAdapter);
+        //spinner onclick listener
         endSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                endCurrency = (String) arrayAdapter.getItem(i);
-            }
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                //select spinner item
+                endCurrency = (String) arrayAdapter.getItem(position);
 
-            @Override
+                //show selected spinner item
+                Toast.makeText(adapterView.getContext(), "Selected: " + endCurrency, Toast.LENGTH_LONG).show();
+            }
             public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
         });
 
+        //create an instance of view.onclicklistener and connect the listener to the button
         dateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
             public void onClick(View view) {
 
-                final Calendar calendar = Calendar.getInstance();
+                //create a calendar instance to parse in the dates
+                Calendar calendar = Calendar.getInstance();
                 year = calendar.get(Calendar.YEAR);
                 month = calendar.get(Calendar.MONTH);
                 day = calendar.get(Calendar.DATE);
 
-
+                //get user input for dates
                 datePickerDialog = new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
                     public void onDateSet(DatePicker datePicker, int calendarYear, int calendarMonth, int calendarDay) {
                         year = calendarYear;
                         month = (calendarMonth+1);
                         day = calendarDay;
+                        //change format for month and date from "m" to "mm"
+                        //2018/3/2 -> 2018/03/02
                         if(month < 10)
                             monthStr = "0" + month;
 
                         if(day < 10)
                             dateStr = "0" + day;
-
+                        //changes the text on the date selection button to the selected date
                         dateButton.setText(calendarDay + "-" + (calendarMonth+1) + "-" + calendarYear);
                     }
                 },year,month,day);
@@ -101,10 +108,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //create an instance of view.onclicklistener and connect the listener to the button
         convertButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //gets the user input amount
                 amountToConvert =  Double.valueOf(amountText.getText().toString());
+                //calls the fetch data class where we get the necessary calculations for
+                //conversion between currencies
                 FetchData obtainData = new FetchData();
                 obtainData.execute();
             }
