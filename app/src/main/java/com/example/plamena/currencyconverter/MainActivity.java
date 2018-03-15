@@ -90,18 +90,18 @@ public class MainActivity extends AppCompatActivity {
                 //get user input for dates
                 datePickerDialog = new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
                     public void onDateSet(DatePicker datePicker, int calendarYear, int calendarMonth, int calendarDay) {
-                        year = calendarYear;
-                        month = (calendarMonth+1);
-                        day = calendarDay;
-                        //change format for month and date from "m" to "mm"
-                        //2018/3/2 -> 2018/03/02
-                        if(month < 10)
-                            monthStr = "0" + month;
+                            year = calendarYear;
+                            month = (calendarMonth+1);
+                            day = calendarDay;
+                            //change format for month and date from "m" to "mm"
+                            //2018/3/2 -> 2018/03/02
+                            if(month < 10)
+                                monthStr = "0" + month;
 
-                        if(day < 10)
-                            dateStr = "0" + day;
-                        //changes the text on the date selection button to the selected date
-                        dateButton.setText(calendarDay + "-" + (calendarMonth+1) + "-" + calendarYear);
+                            if(day < 10)
+                                dateStr = "0" + day;
+                            //changes the text on the date selection button to the selected date
+                            dateButton.setText(day + "/" + month + "/" + calendarYear);
                     }
                 },year,month,day);
             datePickerDialog.show();
@@ -112,8 +112,11 @@ public class MainActivity extends AppCompatActivity {
         convertButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //gets the user input amount
-                amountToConvert =  Double.valueOf(amountText.getText().toString());
+                //gets the user input amount and checks if there is any user input
+                if (amountText.getText().toString().length()>0)
+                    amountToConvert =  Double.valueOf(amountText.getText().toString());
+                 if (year == 0)
+                     Toast.makeText(MainActivity.this, "Please select a date", Toast.LENGTH_LONG).show();
                 //calls the fetch data class where we get the necessary calculations for
                 //conversion between currencies
                 FetchData obtainData = new FetchData();
