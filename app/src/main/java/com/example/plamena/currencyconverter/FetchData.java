@@ -16,7 +16,6 @@ import java.net.URL;
 
 import static android.content.ContentValues.TAG;
 
-
 /**
  * Class that gathers data from the API in a Json format,
  * stores it as an array,
@@ -32,18 +31,36 @@ public class FetchData extends AsyncTask<Void, Void, Void> {
     Currency[] currencies;
 
     //user input
-    double sourceAmount = MainActivity.amountToConvert;
-    String sourceCurrency = MainActivity.startCurrency;
-    String endCurrency = MainActivity.endCurrency;
+    double sourceAmount;
+    String sourceCurrency ;
+    String endCurrency;
     //rate from source to euro
     double rateToEuro;
     //rate from end currency to euro
     double rateToEndCurrency;
 
     //gets the necessary user input data from the main class
-    int year = MainActivity.year;
-    String month = MainActivity.monthStr;
-    String day = MainActivity.dateStr;
+    int year;
+    String month ;
+    String day;
+
+    /**
+     * Constructor for fetch data where you put the user input.
+     * @param sourceAmount   the amount of money the user wants to convert.
+     * @param sourceCurrency the start currency of the money they want to convert.
+     * @param endCurrency    the end currency that they want to have their money in.
+     * @param year           the year of the currency rate.
+     * @param month          the month of the currency rate.
+     * @param day             the day of the currency rate.
+     */
+    public FetchData(double sourceAmount, String sourceCurrency, String endCurrency, int year, String month, String day) {
+        this.sourceAmount = sourceAmount;
+        this.sourceCurrency = sourceCurrency;
+        this.endCurrency = endCurrency;
+        this.year = year;
+        this.month = month;
+        this.day = day;
+    }
 
     protected Void doInBackground(Void... voids) {
         try {
@@ -100,8 +117,11 @@ public class FetchData extends AsyncTask<Void, Void, Void> {
             findCurrency();
             //the final amount after calculations
             double endCurrencyAmount = (sourceAmount / rateToEuro) * rateToEndCurrency;
+            //formats the computed result to 2 decimal places
+            //number of 0's indicate the number precision
+            double formattedEndCurrency = Math.round(endCurrencyAmount * 100d)/100d;
 
-            dataParsed = String.valueOf(endCurrencyAmount);
+            dataParsed = String.valueOf(formattedEndCurrency);
 
         } catch (MalformedURLException e) {
             Log.e(TAG, "Json parsing error: " + e.getMessage());

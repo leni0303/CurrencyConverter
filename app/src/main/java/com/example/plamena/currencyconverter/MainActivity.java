@@ -17,14 +17,14 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
-    public static double amountToConvert;
+    double amountToConvert;
     //text view for the converted result
     public static TextView textView;
-    public static String startCurrency,endCurrency;
-    public static int year,month,day;
+    String startCurrency,endCurrency;
+    int year,month,day;
 
-    public static String monthStr;
-    public static String dateStr;
+    String monthStr;
+    String dateStr;
 
     Spinner sourceSpinner, endSpinner;
     EditText amountText;
@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                      Toast.makeText(MainActivity.this, "Please select a date", Toast.LENGTH_LONG).show();
                 //calls the fetch data class where we get the necessary calculations for
                 //conversion between currencies
-                FetchData obtainData = new FetchData();
+                FetchData obtainData = new FetchData(amountToConvert, startCurrency, endCurrency,year,monthStr, dateStr);
                 obtainData.execute();
             }
         });
